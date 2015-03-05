@@ -23,4 +23,3 @@
 6.bismark_methylation_extractor -s <results.sam> -o <output_folder>
 
 #bismark (genome preparation; align; report; methylation extractor)
-#results.html
