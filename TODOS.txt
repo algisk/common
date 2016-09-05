@@ -1,0 +1,8 @@
+###########################
+###         TODOS       ###
+###########################
+
++ Include option to choose target AAs
++ Include option to choose replacement AA
++ Include option to select chain
++ Fix issue with proteins starting not at 1
