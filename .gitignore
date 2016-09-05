@@ -1,0 +1,8 @@
+foldx
+rotabase.txt
+*.csv
+*.pdb
+*.fasta
+*.png
+./out_*
+individual_list.txt
