@@ -28,7 +28,7 @@ system(paste0("mkdir -p ", repDir))
 ## Repair PDBs
 system(paste0("./foldx --pdb=", pdbName, " --command=RepairPDB --water=CRYSTAL --output-dir=", repDir, sep=""))
 repFile <- list.files(repDir, pattern='Repair.pdb')
-file.copy(paste0(repDir, "/", repFile), repFile)
+file.copy(paste0(repDir, "/", repFile), repFile, overwrite=TRUE)
 
 ###########################
 ### 	Mutations 		###
@@ -39,11 +39,14 @@ G3 <- c("TYR", "ILE", "MET", "TRP", "LEU")
 GG <- structure(G3, .Names=G)
 
 fname <- repFile
-system(paste0("sed -i 's/ 1.00/ 1.00 /g' ",fname))
-nLines <- grep("TER", readLines(fname))[1] -4
+system(paste0("sed -i 's/ 1[.]00/ 1.00 /g' ",fname))
+nLines <- grep("TER", readLines(fname))[1] -1
 if (length(which(nLines > 0)) != 0) {
 system(paste0('sed -i "s/A1/A /g" ',fname))
-	temp <- fread(fname, nrows=nLines)
+system(paste0('head -n',nLines, ' ', fname, ' > temp.pdb'))
+system(paste0('cat temp.pdb > ', fname))
+system(paste0('rm temp.pdb'))
+	temp <- fread(fname)
 	# x <- gsub("A1", "A ", temp$V5)
 	# x <- data.table(do.call('rbind', strsplit(x, " ")))
 	# names(x) <- c("V5", "V6")
@@ -114,6 +117,7 @@ nres <- res
 
 path_One <- foreach(Run=seq(1:length(res)), .combine=rbind) %do% {
 	fname <- paste0(PDB,"_One.pdb")
+	system(paste0("sed -i 's/ 1[.]00/ 1.00 /g' ",fname))
 	if (which(nres==topMut$Mut[1])>=0) {
 		nres <- nres[-which(nres==topMut$Mut[1])]
 	} 
