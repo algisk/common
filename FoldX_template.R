@@ -220,13 +220,16 @@ fastav <- foreach(I=1:nchar(newseq), .combine=rbind) %do% {
 	data.table(WT=t)
 }
 
+rownames(fastav) <- unique(infile$V6)
+
 a <- as.numeric(a)
 Mut <- as.numeric(gsub("[[:alpha:]]", "", mut50$Mut))
 
 muts <- foreach(I=a, .combine=cbind) %do% {
 	idx <- Mut[1:I]
+	sidx <- match(idx, as.numeric(rownames(fastav)))
 	t <- c(fastav$WT)
-	t[idx] <- "F"
+	t[sidx] <- "F"
 	data.table(t)
 }
 
