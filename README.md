@@ -22,8 +22,20 @@ All of these need to be in the same folder
 ---
 
 ## Usage
+
+### FoldX_template.R
 Simply type `Rscript --vanilla FoldX_template.R target.pdb number_of_runs omits.txt`. The number of runs is an integer and `omits.txt` is an optional
 file containing a list of positions to ignore.
+
+### mutateDNA.R
+Used with output .csv file from `FoldX_template.R`. The usage is as follows
+`Rscript --vanilla mutateDNA.R arg1 arg2 arg3 arg4`, where:
+```
+arg1 - .fasta file containing original DNA sequence
+arg2 - mutation_file.csv from FoldX_template.R
+arg3 - number of mutations to perform
+arg4 - codon to change into (ttc for PHE)
+```
 
 ---
 
