@@ -43,7 +43,9 @@ arg4 - codon to change into (ttc for PHE)
 The script creates a folder called `out_[PDB_name]` which includes:
 + A list of performed mutations with free energy change (cumulative).
 + A plot showing energy change after each mutation compared to wild-type.
+![alt text](https://github.com/algisk/common/blob/master/example/gp45_energy.png, "gp45 energy change for each mutation")
 + Another plot showing local minimums.
+![alt text](https://github.com/algisk/common/blob/master/example/gp45_pits.png, "gp45 local minimums")
 + A folder containing FASTA files for each of these minimums.
 
 ---
