@@ -4,6 +4,7 @@
 
 library(foreach)
 library(data.table)
+library(ggplot2)
 
 args=commandArgs(trailingOnly=TRUE)
 nRuns <- as.numeric(args[2])
@@ -168,10 +169,29 @@ write.csv(mut50, paste0(PDB,"_", Run, "_mut.csv"), row.names=FALSE)
 
 ## Plot
 png(paste0(PDB,"_energy.png"), height=700, width=700, pointsize=16)
-plot(mut50$WT_mut)
-abline(h=energy, col='red', lwd=2)
-abline(v=which(mut50$WT_mut > energy)[1], col='blue', lwd=2)
-text(mut50$WT_mut, labels=1:nrow(mut50), cex=0.7, pos=3)
+# plot(mut50$WT_mut)
+# abline(h=energy, col='red', lwd=2)
+# abline(v=which(mut50$WT_mut > energy)[1], col='blue', lwd=2)
+# text(mut50$WT_mut, labels=1:nrow(mut50), cex=0.7, pos=3)
+ggplot() +
+	geom_point(data=mut50, aes(x=Run, y=WT_mut)) +
+	geom_hline(aes(yintercept=energy, color="#FF0000")) +
+	geom_point(data=mut50, aes(x=which(mut50$WT_mut > energy)[1], 
+		y=mut50$WT_mut[which(mut50$WT_mut > energy)[1]],
+		color="#000066",
+		shape="circle"), 
+		size=2,
+		stat="identity") +
+	scale_shape(solid=TRUE, guide=FALSE) +
+	scale_color_manual(values=c("#FF0000", "#000066"), guide=FALSE) +
+	geom_text(aes(x=which(mut50$WT_mut > energy)[1],
+		y=mut50$WT_mut[which(mut50$WT_mut > energy)[1]],
+		label=which(mut50$WT_mut > energy)[1]), 
+		vjust=-2) +
+	theme_bw(base_size = 12, base_family = "Helvetica") +
+	theme(axis.line = element_line(size=1, color = "black")) +
+	xlab("Number of mutations") +
+	ylab("dG")
 dev.off()
 
 x <- mut50$total_energy/mut50$Run
@@ -183,9 +203,25 @@ a <- foreach(I=2:(length(x)-1), .combine=rbind) %do% {
 } 
 
 png(paste0(PDB,"_pits.png"), height=700, width=700, pointsize=16)
-plot(mut50$total_energy/mut50$Run)
-abline(v=a, lwd=2)
-text(mut50$total_energy/mut50$Run, labels=1:nrow(mut50), cex=0.7, pos=3)
+# plot(mut50$total_energy/mut50$Run)
+# abline(v=a, lwd=2)
+# text(mut50$total_energy/mut50$Run, labels=1:nrow(mut50), cex=0.7, pos=3)
+ggplot() +
+	geom_point(data=mut50, aes(x=Run, 
+		y=mut50$total_energy/mut50$Run)) +
+	geom_point(aes(x=a, y=mut50$total_energy[a]/mut50$Run[a],
+		shape="circle",
+		color="#FF0000"),
+	size=2) +
+	scale_shape(solid=TRUE, guide=FALSE) +
+	scale_color_manual(values=c("#FF0000"), guide=FALSE) +
+	geom_text(aes(x=a, y=mut50$total_energy[a]/mut50$Run[a],
+		label=mut50$Run[a]),
+		vjust=2) +
+	theme_bw(base_size = 12, base_family = "Helvetica") +
+	theme(axis.line = element_line(size=1, color = "black")) +
+	xlab("Number of mutations") +
+	ylab("ddG / Number of mutations")
 dev.off()
 
 system(paste0("mkdir -p out_",PDB))

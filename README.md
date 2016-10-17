@@ -12,7 +12,7 @@ as a template for a Poly-Phe protein in 2016 Vilnius iGEM project.
 
 ## Dependencies
 To use this R script, you need:
-+ R ("data.table" and "foreach" packages)
++ R ("data.table", "foreach", "ggplot2" packages)
 + [FoldX](http://foldxsuite.crg.eu/)
 + rotabase.txt (comes with FoldX)
 + target.pdb file
@@ -49,6 +49,6 @@ The script creates a folder called `out_[PDB_name]` which includes:
 ---
 
 ## Notes
-Some pdb files simply do not work because of major flaws in FoldX itself.
-Currently, only the A chain of target protein will be mutated.
+Some pdb files simply do not work because of flaws in FoldX itself.
+Currently, only the first chain of target protein will be mutated.
 The target protein sequence must start at position 1.
