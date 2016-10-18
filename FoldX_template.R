@@ -175,21 +175,22 @@ png(paste0(PDB,"_energy.png"), height=700, width=700, pointsize=16)
 # text(mut50$WT_mut, labels=1:nrow(mut50), cex=0.7, pos=3)
 ggplot() +
 	geom_point(data=mut50, aes(x=Run, y=WT_mut)) +
-	geom_hline(aes(yintercept=energy, color="#FF0000")) +
+	geom_hline(aes(yintercept=energy, color="#836AE3")) +
 	geom_point(data=mut50, aes(x=which(mut50$WT_mut > energy)[1], 
 		y=mut50$WT_mut[which(mut50$WT_mut > energy)[1]],
-		color="#000066",
+		color="#D6846F",
 		shape="circle"), 
 		size=2,
 		stat="identity") +
 	scale_shape(solid=TRUE, guide=FALSE) +
-	scale_color_manual(values=c("#FF0000", "#000066"), guide=FALSE) +
+	scale_color_manual(values=c("#D6846F", "#836AE3"), guide=FALSE) +
 	geom_text(aes(x=which(mut50$WT_mut > energy)[1],
 		y=mut50$WT_mut[which(mut50$WT_mut > energy)[1]],
 		label=which(mut50$WT_mut > energy)[1]), 
 		vjust=-2) +
-	theme_bw(base_size = 12, base_family = "Helvetica") +
+	theme_bw(base_size = 12) +
 	theme(axis.line = element_line(size=1, color = "black")) +
+	theme(text=element_text(size=12, family="Raleway Light")) +
 	xlab("Number of mutations") +
 	ylab("dG")
 dev.off()
@@ -211,15 +212,16 @@ ggplot() +
 		y=mut50$total_energy/mut50$Run)) +
 	geom_point(aes(x=a, y=mut50$total_energy[a]/mut50$Run[a],
 		shape="circle",
-		color="#FF0000"),
+		color="#836AE3"),
 	size=2) +
 	scale_shape(solid=TRUE, guide=FALSE) +
-	scale_color_manual(values=c("#FF0000"), guide=FALSE) +
+	scale_color_manual(values=c("#836AE3"), guide=FALSE) +
 	geom_text(aes(x=a, y=mut50$total_energy[a]/mut50$Run[a],
 		label=mut50$Run[a]),
 		vjust=2) +
-	theme_bw(base_size = 12, base_family = "Helvetica") +
+	theme_bw(base_size = 12) +
 	theme(axis.line = element_line(size=1, color = "black")) +
+	theme(text=element_text(size=12, family="Raleway Light")) +
 	xlab("Number of mutations") +
 	ylab("ddG / Number of mutations")
 dev.off()
